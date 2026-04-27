@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>루체테 어학원 — 레슨플랜 생성기</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#5BA828;--green-lt:#92D050;--green-bg:#EAF6D5;
+  --orange:#E67E22;--orange-lt:#F0A14E;--orange-bg:#FEF3E2;
+  --blue:#1565C0;--blue-lt:#42A5F5;--blue-bg:#E3F2FD;
+  --pink:#E91E8C;--pink-lt:#F06292;--pink-bg:#FCE4F0;
+  --navy:#2E5090;--ink:#111827;--muted:#6B7280;--bg:#F5F7F2;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+
+/* Header */
+header{
+  background:linear-gradient(135deg,#1B3A0A 0%,#2E6010 50%,var(--green) 100%);
+  padding:3rem 2rem 2.5rem;text-align:center;position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(146,208,80,.15) 0%,transparent 60%),
+             radial-gradient(ellipse at 70% 30%,rgba(255,255,255,.05) 0%,transparent 50%);
+}
+.logo-wrap{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:1rem;position:relative}
+.logo-icon{
+  width:52px;height:52px;background:#fff;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:var(--green);
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+}
+.logo-text{font-family:'Montserrat',sans-serif;font-weight:900;font-size:28px;color:#fff;letter-spacing:-.5px}
+.header-sub{font-size:14px;color:rgba(255,255,255,.7);position:relative;letter-spacing:.02em}
+
+/* Main */
+main{flex:1;max-width:860px;margin:0 auto;padding:3rem 1.5rem;width:100%}
+.section-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1.25rem;padding-left:4px}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:3rem}
+.card{
+  background:#fff;border-radius:18px;padding:2rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.04);
+  border:1px solid rgba(0,0,0,.06);
+  text-decoration:none;color:inherit;
+  transition:transform .2s,box-shadow .2s;
+  display:flex;flex-direction:column;gap:1rem;
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1),0 16px 48px rgba(0,0,0,.06)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.card.green::before{background:linear-gradient(90deg,var(--green),var(--green-lt))}
+.card.orange::before{background:linear-gradient(90deg,var(--orange),var(--orange-lt))}
+.card.blue::before{background:linear-gradient(90deg,var(--blue),var(--blue-lt))}
+.card.pink::before{background:linear-gradient(90deg,var(--pink),var(--pink-lt))}
+
+.card-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;
+  width:fit-content;
+}
+.card.green .card-badge{background:var(--green-bg);color:var(--green)}
+.card.orange .card-badge{background:var(--orange-bg);color:var(--orange)}
+.card.blue .card-badge{background:var(--blue-bg);color:var(--blue)}
+.card.pink .card-badge{background:var(--pink-bg);color:var(--pink)}
+
+.card-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.card-title{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.card-levels{display:flex;gap:6px;flex-wrap:wrap}
+.level-tag{
+  padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;
+}
+.green .level-tag{background:var(--green-bg);color:var(--green)}
+.orange .level-tag{background:var(--orange-bg);color:var(--orange)}
+.blue .level-tag{background:var(--blue-bg);color:var(--blue)}
+.pink .level-tag{background:var(--pink-bg);color:var(--pink)}
+
+.card-arrow{
+  margin-top:auto;display:flex;align-items:center;justify-content:space-between;
+  padding-top:1rem;border-top:1px solid #f0f0f0;
+}
+.card-arrow span{font-size:13px;font-weight:600}
+.green .card-arrow span{color:var(--green)}
+.orange .card-arrow span{color:var(--orange)}
+.blue .card-arrow span{color:var(--blue)}
+.pink .card-arrow span{color:var(--pink)}
+.arrow-icon{font-size:18px}
+
+/* Info box */
+.info-box{
+  background:#fff;border-radius:14px;padding:1.5rem;
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.info-title{font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--ink)}
+.info-list{display:flex;flex-direction:column;gap:.5rem}
+.info-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);line-height:1.6}
+.info-item::before{content:'•';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* Holiday section */
+.hol-section{background:#fff;border-radius:14px;padding:1.5rem;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:1.25rem}
+.hol-section-title{font-size:14px;font-weight:700;margin-bottom:.25rem;color:var(--ink);display:flex;align-items:center;gap:8px}
+.hol-section-desc{font-size:12px;color:var(--muted);margin-bottom:1rem}
+.hol-list{display:flex;flex-direction:column;gap:6px;margin-bottom:.75rem}
+.hol-item{display:flex;gap:8px;align-items:center}
+.hol-item input[type=date]{flex:0 0 148px;padding:6px 10px;border:1px solid #e2e6ea;border-radius:7px;font-size:13px;font-family:inherit;outline:none}
+.hol-item input[type=date]:focus{border-color:var(--green)}
+.hol-item input[type=text]{flex:1;padding:6px 10px;border:1px solid #e2e6ea;border-radius:7px;font-size:13px;font-family:inherit;outline:none}
+.hol-item input[type=text]:focus{border-color:var(--green)}
+.btn-rm{background:none;border:none;cursor:pointer;color:#dc2626;font-size:18px;padding:1px 6px;border-radius:4px;line-height:1}
+.btn-rm:hover{background:#fef2f2}
+.hol-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn-add-hol{display:inline-flex;align-items:center;gap:5px;background:none;border:1px dashed #e2e6ea;border-radius:7px;padding:6px 12px;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-add-hol:hover{border-color:var(--green);color:var(--green);background:#EAF6D5}
+.btn-save-hol{background:var(--green);color:#fff;border:none;border-radius:7px;padding:7px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .15s}
+.btn-save-hol:hover{background:#4a9020}
+.save-status{font-size:12px;color:var(--green);font-weight:600;display:none}
+.save-status.show{display:inline}
+
+@media(max-width:600px){
+  .cards{grid-template-columns:1fr}
+  .logo-text{font-size:22px}
+  header{padding:2rem 1.5rem 2rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-icon">L</div>
+    <div class="logo-text">루체테 어학원</div>
+  </div>
+  <div class="header-sub">레슨플랜 자동 생성기 — 전국 캠퍼스 공용</div>
+</header>
+
+<main>
+  <div class="section-title">레벨을 선택하세요</div>
+
+  <div class="cards">
+    <!-- E레벨 -->
+    <a class="card green" href="e-level.html">
+      <div class="card-badge"><div class="card-dot"></div>E레벨</div>
+      <div class="card-title">E레벨 레슨플랜</div>
+      <div class="card-desc">표준진도표 기반 자동 배정.<br>Reading·Writing·Grammar 진도 자동 계산.</div>
+      <div class="card-levels">
+        <span class="level-tag">E3</span>
+        <span class="level-tag">E4</span>
+        <span class="level-tag">E5</span>
+        <span class="level-tag">E6</span>
+        <span class="level-tag">E7</span>
+        <span class="level-tag">E8</span>
+      </div>
+      <div class="card-arrow">
+        <span>생성하러 가기</span>
+        <span class="arrow-icon">→</span>
+      </div>
+    </a>
+
+    <!-- 에콩 -->
+    <a class="card orange" href="econg.html">
+      <div class="card-badge"><div class="card-dot"></div>에콩레벨</div>
+      <div class="card-title">에콩 레슨플랜</div>
+      <div class="card-desc">Sprout·Bud 진도표 기반 자동 배정.<br>영어도서관·S.M 활동 포함.</div>
+      <div class="card-levels">
+        <span class="level-tag">Sprout A</span>
+        <span class="level-tag">Sprout B</span>
+        <span class="level-tag">Bud</span>
+      </div>
+      <div class="card-arrow">
+        <span>생성하러 가기</span>
+        <span class="arrow-icon">→</span>
+      </div>
+    </a>
+
+    <!-- M레벨 -->
+    <a class="card blue" href="m-level.html">
+      <div class="card-badge"><div class="card-dot"></div>M레벨</div>
+      <div class="card-title">M레벨 레슨플랜</div>
+      <div class="card-desc">교재 직접 입력 방식.<br>Reading·Grammar·Writing 독립 진행.</div>
+      <div class="card-levels">
+        <span class="level-tag">M11</span>
+        <span class="level-tag">M12</span>
+        <span class="level-tag">M13</span>
+        <span class="level-tag">M14</span>
+        <span class="level-tag">M15</span>
+      </div>
+      <div class="card-arrow">
+        <span>생성하러 가기</span>
+        <span class="arrow-icon">→</span>
+      </div>
+    </a>
+
+    <!-- Seed -->
+    <a class="card pink" href="seed.html">
+      <div class="card-badge"><div class="card-dot"></div>Seed</div>
+      <div class="card-title">Seed 레슨플랜</div>
+      <div class="card-desc">파닉스 수업 전용.<br>4~8주 자유 선택, Unit 자동 배정.</div>
+      <div class="card-levels">
+        <span class="level-tag">Seed 1</span>
+        <span class="level-tag">Seed 2</span>
+        <span class="level-tag">Seed 3</span>
+        <span class="level-tag">Seed 4</span>
+        <span class="level-tag">Seed 5</span>
+        <span class="level-tag">Seed 6</span>
+      </div>
+      <div class="card-arrow">
+        <span>생성하러 가기</span>
+        <span class="arrow-icon">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 공통 휴일 설정 -->
+  <div class="hol-section">
+    <div class="hol-section-title">📅 공통 휴일 설정</div>
+    <div class="hol-section-desc">여기서 설정한 휴일은 이 브라우저에 저장되어 E레벨·에콩·M레벨·Seed 모든 앱에 자동으로 적용됩니다.</div>
+    <div class="hol-list" id="holList"></div>
+    <div class="hol-actions">
+      <button class="btn-add-hol" onclick="addHoliday()">+ 휴일 추가</button>
+      <button class="btn-save-hol" onclick="saveHolidays()">💾 저장</button>
+      <span class="save-status" id="saveStatus">✅ 저장됐습니다!</span>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-title">💡 사용 안내</div>
+    <div class="info-list">
+      <div class="info-item">레벨 선택 → 캠퍼스명·시작일·요일 설정 → 엑셀 다운로드</div>
+      <div class="info-item">다운로드된 엑셀 파일에서 Homework 및 내용을 직접 수정 가능합니다</div>
+      <div class="info-item">휴일은 자동으로 분홍색으로 표시되며 수업이 다음 주로 이월됩니다</div>
+      <div class="info-item">세션이 이어질 경우 주차 시작 번호를 조정하세요</div>
+    </div>
+  </div>
+</main>
+
+<footer>루체테 어학원 © 2026 — 전국 캠퍼스 레슨플랜 자동화 시스템</footer>
+
+<script>
+const DEF_HOL=[
+  {d:'2026-01-01',n:'신정'},
+  {d:'2026-02-15',n:'설날 연휴'},{d:'2026-02-16',n:'설날'},{d:'2026-02-17',n:'설날 연휴'},{d:'2026-02-18',n:'설날 대체공휴일'},
+  {d:'2026-03-01',n:'삼일절'},
+  {d:'2026-05-01',n:'노동절'},{d:'2026-05-05',n:'어린이날'},{d:'2026-05-25',n:'부처님오신날'},
+  {d:'2026-06-06',n:'현충일'},{d:'2026-08-15',n:'광복절'},
+  {d:'2026-09-24',n:'추석 연휴'},{d:'2026-09-25',n:'추석'},{d:'2026-09-26',n:'추석 연휴'},{d:'2026-09-28',n:'추석 대체공휴일'},
+  {d:'2026-10-09',n:'한글날'},{d:'2026-12-25',n:'크리스마스'},
+];
+
+function addHoliday(dv='',nv=''){
+  const list=document.getElementById('holList');
+  const div=document.createElement('div');div.className='hol-item';
+  div.innerHTML=`<input type="date" value="${dv}"><input type="text" placeholder="비고 (예: 어린이날)" value="${nv}"><button class="btn-rm" onclick="this.parentElement.remove()">×</button>`;
+  list.appendChild(div);
+}
+
+function saveHolidays(){
+  const items=[...document.querySelectorAll('#holList .hol-item')].map(i=>({
+    d:i.querySelector('input[type=date]').value,
+    n:i.querySelector('input[type=text]').value||'휴일'
+  })).filter(h=>h.d);
+  localStorage.setItem('lucete_holidays', JSON.stringify(items));
+  const s=document.getElementById('saveStatus');
+  s.classList.add('show');
+  setTimeout(()=>s.classList.remove('show'),2500);
+}
+
+function loadHolidays(){
+  const saved=localStorage.getItem('lucete_holidays');
+  const holidays=saved?JSON.parse(saved):DEF_HOL;
+  holidays.forEach(h=>addHoliday(h.d,h.n));
+}
+
+document.addEventListener('DOMContentLoaded',loadHolidays);
+</script>
